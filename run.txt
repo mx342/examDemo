@@ -1,0 +1,2 @@
+scp gateway.tar.gz root@120.26.82.31:/root
+nc -v 120.26.82.31 8080

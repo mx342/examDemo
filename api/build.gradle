@@ -1,0 +1,71 @@
+dependencies {
+
+    compile deps.springboot
+    compile deps.springbootweb
+    compile deps.validation
+    
+    compile deps.actuator
+    compile deps.groovy
+    compile deps.jodaTime
+
+
+
+    compile deps.springTx
+    compile deps.springOrm
+
+    compile deps.hikaricp
+    compile deps.mysqlConnector
+
+
+
+    compile 'org.springframework:spring-messaging:4.3.19.RELEASE'
+
+
+    
+    testCompile('org.springframework.boot:spring-boot-starter-test:1.5.16.RELEASE')
+    testCompile 'com.github.dreamhead:moco-core:0.11.0'
+
+
+    compile 'io.prometheus:simpleclient_hotspot:0.5.0'
+    compile 'io.prometheus:simpleclient:0.5.0'
+    compile 'io.prometheus:simpleclient_httpserver:0.5.0'
+    compile 'io.prometheus:simpleclient_dropwizard:0.5.0'
+    compile 'io.prometheus:simpleclient_servlet:0.5.0'
+    
+}
+
+
+jar {
+    exclude("application.properties")
+}
+
+
+
+task buildTar(type: Tar) {
+    baseName = 'exam'
+    extension = 'tar.gz'
+    compression = Compression.GZIP
+
+    from('src/main/bash') {
+        into 'bin'
+        fileMode = 0755
+    }
+
+
+    from('src/main/conf') {
+        into 'conf'
+    }
+
+    from(project(':common').files('src/main/bash')) {
+        into 'bin'
+        fileMode = 0755
+    }
+
+    from(configurations.runtime) {
+        into 'lib'
+    }
+    from(jar) {
+        into 'lib'
+    }
+
+}
